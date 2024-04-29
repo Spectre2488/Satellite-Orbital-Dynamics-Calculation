@@ -1,3 +1,5 @@
+'''This python code gives the maximum eccentricity (ECC) of the satellite with respect to Semi major axis (SMA)
+It has 2 print functions 1st prints the max eccentricity with traditional formulas 2nd prints max eccentricity as per GMAT's (GENERAL MISSION ANALYSIS TOOL BY NASA) interface'''
 def max_eccentricity(altitude):
     # Constants
     R_earth = 6371  # Radius of the Earth in km
