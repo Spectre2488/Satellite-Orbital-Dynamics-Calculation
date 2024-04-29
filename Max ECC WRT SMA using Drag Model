@@ -1,0 +1,39 @@
+'''Same as Max ECC WRT SMA GMAT, added the atmospheric drag model suitable for those satellites having altitude range between 300km - 700km'''
+def max_eccentricity(sma, drag_force):
+    # Constants
+    R_earth = 6371  # Radius of the Earth in km
+    # Calculate maximum eccentricity
+    max_eccentricity = 1 - (R_earth / sma)
+    # Adjust eccentricity considering energy loss due to drag
+    adjusted_eccentricity = max_eccentricity - (drag_force / (2 * sma * R_earth))
+    return adjusted_eccentricity
+
+def atmospheric_drag(sma):
+    # Constants
+    R_earth = 6371  # Radius of the Earth in km
+    Cd = 2.2  # Drag coefficient
+    A = 1.0   # Cross-sectional area in m^2
+    rho_0 = 1.225  # Standard atmospheric density at sea level in kg/m^3
+    h1 = 300  # Lower altitude boundary in km
+    h2 = 750  # Upper altitude boundary in km
+    
+    # Convert heights to meters
+    h1 *= 1000
+    h2 *= 1000
+    
+    # Calculate the average atmospheric density between h1 and h2
+    avg_rho = 0.5 * (rho_0 * (1 - (sma - R_earth) / h1) + rho_0 * (1 - (sma - R_earth) / h2))
+    
+    # Calculate the atmospheric drag force
+    drag_force = 0.5 * Cd * A * avg_rho * (sma - R_earth) ** 2
+    
+    return drag_force
+
+# Get user input for Semi-Major Axis (SMA)
+sma = float(input("Enter Semi-Major Axis (SMA) in km: ")) + 6371  # Convert SMA to km + Earth's radius
+# Calculate atmospheric drag
+drag = atmospheric_drag(sma)
+# Calculate maximum eccentricity considering drag
+result = max_eccentricity(sma, drag)
+if result is not None:
+    print("Eccentricity after considering atmospheric drag: {:.6f}".format(result))
