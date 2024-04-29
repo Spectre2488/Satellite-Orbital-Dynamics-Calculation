@@ -1,4 +1,4 @@
-'''Same as Max ECC WRT SMA GMAT, added the atmospheric drag model suitable for those satellites having altitude range between 300km - 700km'''
+'''Same as Max ECC WRT SMA for GMAT, added the atmospheric drag model suitable for those satellites having altitude range between 300km - 700km'''
 def max_eccentricity(sma, drag_force):
     # Constants
     R_earth = 6371  # Radius of the Earth in km
