@@ -1,0 +1,49 @@
+def calculate_target_track_duration():
+  """
+  This function prompts the user for initial and final satellite conditions,
+  calculates the target track duration at the final height, and displays the results.
+  """
+
+  # Get initial conditions from user input
+  while True:
+    try:
+      initial_height = float(input("Enter initial satellite altitude (km): "))
+      initial_track_duration_min = float(input("Enter initial target track duration (minutes): "))
+      initial_track_duration_sec = float(input("Enter initial target track duration (seconds): "))
+      initial_speed = float(input("Enter initial satellite speed (km/sec): "))
+
+      # Ensure positive values for height and speed
+      if initial_height <= 0 or initial_speed <= 0:
+        raise ValueError("Height and speed must be positive values.")
+      break
+    except ValueError:
+      print("Invalid input. Please enter positive numbers for altitude and speed.")
+
+  # Convert initial track duration to seconds
+  initial_track_duration_total_sec = initial_track_duration_min * 60 + initial_track_duration_sec
+
+  # Get final conditions from user input
+  final_height = float(input("\nEnter final satellite altitude (km): "))
+  final_speed = float(input("Enter final satellite speed (km/sec): "))
+
+  # Ensure positive values for final height and speed
+  if final_height <= 0 or final_speed <= 0:
+    print("Invalid input. Height and speed must be positive values.")
+    return
+
+  # Calculate distance traveled at initial height
+  distance = initial_speed * initial_track_duration_total_sec
+
+  # Calculate target track duration at new height
+  new_track_duration_sec = distance / final_speed
+
+  # Convert new track duration to minutes and seconds
+  new_track_duration_min = int(new_track_duration_sec // 60)
+  new_track_duration_remaining_sec = new_track_duration_sec % 60
+
+  # Print the results
+  print(f"\nTarget track duration at {final_height}km:")
+  print(f"{new_track_duration_min} minutes and {new_track_duration_remaining_sec:.2f} seconds")
+
+if __name__ == "__main__":
+  calculate_target_track_duration()
