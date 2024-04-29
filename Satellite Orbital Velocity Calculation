@@ -1,0 +1,49 @@
+'''The python code calculates the velocity of the satellite by taking the inputs from the user. It asks the user to enter the altitude or semi major axis of the satellite, then calculates the orbital velocity of the satellite. This code works upto GEO Satellites'''
+import math
+
+def calculate_orbital_speed(input_value, is_altitude=True):
+    # Constants
+    G = 6.67430e-11  # Gravitational constant in m^3/kg/s^2
+    M = 5.972e24     # Mass of the Earth in kg
+    earth_radius = 6371.0  # Earth's radius in km
+
+    if is_altitude:
+        # Convert altitude to meters
+        altitude_m = input_value * 1000.0
+
+        # Calculate total distance from Earth's center to satellite
+        r = earth_radius * 1000.0 + altitude_m
+    else:
+        # Convert semi-major axis to meters
+        sma_m = input_value * 1000.0
+
+        # Calculate total distance from Earth's center to satellite
+        r = sma_m
+
+    # Calculate orbital speed
+    speed = math.sqrt(G * M / r)
+
+    # Convert speed to km/s
+    speed_kmps = speed / 1000.0
+
+    return speed_kmps
+
+# Get user input for altitude or semi-major axis
+input_type = input("Enter 'alt' for altitude or 'sma' for semi-major axis: ")
+
+if input_type.lower() == "alt":
+    # Get user input for altitude in kilometers
+    altitude_input = float(input("Enter the altitude of the satellite in kilometers: "))
+    # Call the function to calculate the orbital speed using altitude
+    orbital_speed = calculate_orbital_speed(altitude_input)
+    # Print the result
+    print("The orbital speed of the satellite at an altitude of {} km is {:.2f} km/s.".format(altitude_input, orbital_speed))
+elif input_type.lower() == "sma":
+    # Get user input for semi-major axis in kilometers
+    sma_input = float(input("Enter the semi-major axis of the satellite's orbit in kilometers: "))
+    # Call the function to calculate the orbital speed using semi-major axis
+    orbital_speed = calculate_orbital_speed(sma_input, is_altitude=False)
+    # Print the result
+    print("The orbital speed of the satellite with a semi-major axis of {} km is {:.2f} km/s.".format(sma_input, orbital_speed))
+else:
+    print("Invalid input. Please enter 'alt' for altitude or 'sma' for semi-major axis.")
