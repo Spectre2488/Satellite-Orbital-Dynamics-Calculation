@@ -1,0 +1,32 @@
+'''This python code will calculate the atmospheric drag for the satellite orbit and works for altitude between 0 - 35786km (MEO) Orbit'''
+def atmospheric_drag(altitude):
+    # Constants
+    R_earth = 6371  # Radius of the Earth in km
+    Cd = 2.2  # Drag coefficient
+    A = 1.0   # Cross-sectional area in m^2
+    rho_0 = 1.225  # Standard atmospheric density at sea level in kg/m^3
+    
+    # Convert altitude to meters
+    altitude_m = altitude * 1000
+    
+    # Calculate the atmospheric density at the given altitude
+    if altitude <= 750:  # Below 750 km, use the given formula
+        avg_rho = rho_0 * (1 - altitude_m / R_earth)
+    else:  # Above 750 km, use an exponential model for atmospheric density
+        avg_rho = rho_0 * (1 - altitude_m / R_earth) ** 4.14
+    
+    # Calculate the atmospheric drag force
+    drag_force = 0.5 * Cd * A * avg_rho * (altitude_m + R_earth) ** 2
+    
+    return drag_force
+
+# Get user input for altitude
+altitude = float(input("Enter altitude of satellite in km: "))
+
+# Ensure the altitude is within the valid range (up to MEO)
+if 0 <= altitude <= 35786:
+    # Calculate atmospheric drag at the given altitude
+    drag = atmospheric_drag(altitude)
+    print("Atmospheric drag force at altitude {:.1f} km: {:.6f} N".format(altitude, drag))
+else:
+    print("Error: Altitude should be between 0 and 35786 km for this calculation.")
