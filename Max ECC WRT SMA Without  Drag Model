@@ -1,0 +1,49 @@
+def max_eccentricity(sma):
+    # Constants
+    R_earth = 6371  # Radius of the Earth in km
+    # Calculate maximum eccentricity
+    max_eccentricity = 1 - (R_earth / sma)
+    return max_eccentricity
+
+def atmospheric_drag(sma):
+    # Constants
+    R_earth = 6371  # Radius of the Earth in km
+    Cd = 2.2  # Drag coefficient
+    A = 1.0   # Cross-sectional area in m^2
+    rho_0 = 1.225  # Standard atmospheric density at sea level in kg/m^3
+    h1 = 300  # Lower altitude boundary in km
+    h2 = 750  # Upper altitude boundary in km
+    
+    # Convert heights to meters
+    h1 *= 1000
+    h2 *= 1000
+    
+    # Calculate the average atmospheric density between h1 and h2
+    avg_rho = 0.5 * (rho_0 * (1 - (sma - R_earth) / h1) + rho_0 * (1 - (sma - R_earth) / h2))
+    
+    # Calculate the atmospheric drag force
+    drag_force = 0.5 * Cd * A * avg_rho * (sma - R_earth) ** 2
+    
+    return drag_force
+
+# Get user input for altitude or semi-major axis
+input_type = input("Enter 'alt' for altitude or 'sma' for semi-major axis: ")
+
+if input_type.lower() == "alt":
+    # Get user input for altitude in kilometers
+    altitude_input = float(input("Enter the altitude of the satellite in kilometers: "))
+    # Convert altitude to semi-major axis
+    sma = altitude_input + 6371  # Convert altitude to semi-major axis
+    # Calculate maximum eccentricity without atmospheric drag
+    result_without_drag = max_eccentricity(sma)
+    if result_without_drag is not None:
+        print("Maximum eccentricity of Satellite with Altitude {:.1f} km without any atmospheric drag is: {:.6f}".format(altitude_input, result_without_drag))
+elif input_type.lower() == "sma":
+    # Get user input for semi-major axis in kilometers
+    sma_input = float(input("Enter the semi-major axis of the satellite's orbit in kilometers: "))
+    # Calculate maximum eccentricity without atmospheric drag
+    result_without_drag = max_eccentricity(sma_input)
+    if result_without_drag is not None:
+        print("Maximum eccentricity of Satellite with Semi-Major Axis {:.1f} km without any atmospheric drag is: {:.6f}".format(sma_input, result_without_drag))
+else:
+    print("Invalid input. Please enter 'alt' for altitude or 'sma' for semi-major axis.")
