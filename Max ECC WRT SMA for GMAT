@@ -15,3 +15,4 @@ result_minus_6_67_percent = result - (0.0667 * result)
 if result is not None:
     print("Maximum eccentricity for altitude {:.1f} km: {:.6f}".format(altitude, result))
     print("After subtracting 6.67% GMAT's Perspective: {:.6f}".format(result_minus_6_67_percent))   #code for simulating max eccentricity wrt to SMA (not altitude)
+
