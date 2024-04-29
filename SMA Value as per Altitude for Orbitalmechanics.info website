@@ -1,0 +1,39 @@
+print("This code will calculate the following:")
+print('\n\n')
+print("1. SMA TO ALT")
+print('\n\n')
+print("2. SMA TO Decimal wrt 'http://orbitalmechanics.info' ")
+print('\n\n')
+
+def convert_sma(sma_km):
+    earth_radius = 6371  # Earth's mean orbital radius in kilometers
+    sma_decimal = sma_km / earth_radius
+    return sma_decimal
+
+def sma_to_altitude(sma):
+    # Earth's radius in kilometers
+    earth_radius = 6371
+    
+    # Calculate altitude above Earth's surface
+    altitude = sma - earth_radius
+    
+    return altitude
+
+# Example usage:
+sma_km = int(input("Enter Semi-major axis in kilometers: "))  # Semi-major axis in kilometers
+
+altitude = sma_to_altitude(sma_km)
+print("Altitude:", altitude, "kilometers")
+
+print('\n\n')
+print("SMA is the distance from the center to the surface of the Earth + surface to Height of the Satellite.")
+print('\n\n')
+print('SMA IS NOT ALTITUDE!!')
+print('\n\n')
+print("For Example")
+print('\n\n')
+print("If your altitude is 300 km")
+print("then the SMA = 6371 km (Fixed) + 300 km (User altitude).")
+print('\n\n')
+sma_decimal = convert_sma(sma_km)
+print(f"The semi-major axis of {sma_km} km is equivalent to {sma_decimal:.3f} in decimal values.")
