@@ -2,9 +2,8 @@ import math
 
 def calculate_orbital_duration(alt_or_sma, is_altitude, orbital_velocity):
     # Constants
-    EARTH_RADIUS = 6371 * 1000  # in meters
+    EARTH_RADIUS = 6371 * 1000  # Earth's radius in meters
     SECONDS_IN_HOUR = 3600
-    SECONDS_IN_DAY = 24 * SECONDS_IN_HOUR
     
     # Determine the radius of the orbit
     if is_altitude:
@@ -23,14 +22,16 @@ def calculate_orbital_duration(alt_or_sma, is_altitude, orbital_velocity):
     
     orbits_24hrs = calculate_orbits_in_hours(24)
     orbits_48hrs = calculate_orbits_in_hours(48)
-    orbits_76hrs = calculate_orbits_in_hours(76)
+    orbits_72hrs = calculate_orbits_in_hours(72)
+    orbits_96hrs = calculate_orbits_in_hours(96)
     
     return {
         'orbital_period_seconds': orbital_period,
         'orbital_period_minutes': orbital_period / 60,
         'orbits_in_24hrs': orbits_24hrs,
         'orbits_in_48hrs': orbits_48hrs,
-        'orbits_in_76hrs': orbits_76hrs
+        'orbits_in_72hrs': orbits_72hrs,
+        'orbits_in_96hrs': orbits_96hrs
     }
 
 def main():
@@ -46,7 +47,9 @@ def main():
     print(f"Orbital Duration: {results['orbital_period_seconds']:.2f} seconds ({results['orbital_period_minutes']:.2f} minutes)")
     print(f"Orbits in 24 hours: {results['orbits_in_24hrs']:.2f}")
     print(f"Orbits in 48 hours: {results['orbits_in_48hrs']:.2f}")
-    print(f"Orbits in 76 hours: {results['orbits_in_76hrs']:.2f}")
+    print(f"Orbits in 72 hours: {results['orbits_in_72hrs']:.2f}")
+    print(f"Orbits in 96 hours: {results['orbits_in_96hrs']:.2f}")
 
 if __name__ == "__main__":
     main()
+
