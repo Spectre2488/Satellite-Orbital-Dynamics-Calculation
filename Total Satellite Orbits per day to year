@@ -1,0 +1,53 @@
+import math
+
+def calculate_orbital_duration(alt_or_sma, is_altitude, orbital_velocity):
+    # Constants
+    EARTH_RADIUS = 6371 * 1000  # Earth's radius in meters
+    SECONDS_IN_HOUR = 3600
+    SECONDS_IN_DAY = 24 * SECONDS_IN_HOUR
+    
+    # Determine the radius of the orbit
+    if is_altitude:
+        # If the input is altitude
+        radius = EARTH_RADIUS + alt_or_sma * 1000  # convert km to meters
+    else:
+        # If the input is semi-major axis
+        radius = alt_or_sma * 1000  # convert km to meters
+    
+    # Orbital period calculation
+    orbital_period = (2 * math.pi * radius) / (orbital_velocity * 1000)  # convert km/s to m/s
+    
+    return orbital_period
+
+def calculate_orbits_in_days(orbital_period, days):
+    SECONDS_IN_DAY = 24 * 3600
+    return (days * SECONDS_IN_DAY) / orbital_period
+
+def main():
+    # User inputs
+    alt_or_sma = float(input("Enter the altitude or semi-major axis (in km): "))
+    is_altitude = input("Is this value altitude (A) or semi-major axis (SMA)? (Enter 'A' or 'SMA'): ").strip().upper() == 'A'
+    orbital_velocity = float(input("Enter the orbital velocity (in km/s): "))
+    
+    # Calculate the orbital duration
+    orbital_period = calculate_orbital_duration(alt_or_sma, is_altitude, orbital_velocity)
+    
+    # Output the orbital duration
+    print(f"Orbital Duration: {orbital_period:.2f} seconds ({orbital_period / 60:.2f} minutes)")
+
+    # User input for range of days
+    start_day = int(input("Enter the start day (min 1): "))
+    end_day = int(input("Enter the end day (max 366): "))
+    
+    # Ensure valid input range
+    if start_day < 1 or end_day > 366 or start_day > end_day:
+        print("Invalid range of days. Please enter a valid range between 1 and 366.")
+        return
+
+    # Calculate and output the number of orbits for the specified range of days
+    for day in range(start_day, end_day + 1):
+        orbits = calculate_orbits_in_days(orbital_period, day)
+        print(f"Number of orbits in day {day}: {orbits:.2f}")
+
+if __name__ == "__main__":
+    main()
