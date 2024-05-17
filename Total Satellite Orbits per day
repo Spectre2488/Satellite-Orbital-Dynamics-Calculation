@@ -1,0 +1,52 @@
+import math
+
+def calculate_orbital_duration(alt_or_sma, is_altitude, orbital_velocity):
+    # Constants
+    EARTH_RADIUS = 6371 * 1000  # in meters
+    SECONDS_IN_HOUR = 3600
+    SECONDS_IN_DAY = 24 * SECONDS_IN_HOUR
+    
+    # Determine the radius of the orbit
+    if is_altitude:
+        # If the input is altitude
+        radius = EARTH_RADIUS + alt_or_sma * 1000  # convert km to meters
+    else:
+        # If the input is semi-major axis
+        radius = alt_or_sma * 1000  # convert km to meters
+    
+    # Orbital period calculation
+    orbital_period = (2 * math.pi * radius) / (orbital_velocity * 1000)  # convert km/s to m/s
+    
+    # Calculate the number of orbits in given hours
+    def calculate_orbits_in_hours(hours):
+        return (hours * SECONDS_IN_HOUR) / orbital_period
+    
+    orbits_24hrs = calculate_orbits_in_hours(24)
+    orbits_48hrs = calculate_orbits_in_hours(48)
+    orbits_76hrs = calculate_orbits_in_hours(76)
+    
+    return {
+        'orbital_period_seconds': orbital_period,
+        'orbital_period_minutes': orbital_period / 60,
+        'orbits_in_24hrs': orbits_24hrs,
+        'orbits_in_48hrs': orbits_48hrs,
+        'orbits_in_76hrs': orbits_76hrs
+    }
+
+def main():
+    # User inputs
+    alt_or_sma = float(input("Enter the altitude or semi-major axis (in km): "))
+    is_altitude = input("Is this value altitude (A) or semi-major axis (SMA)? (Enter 'A' or 'SMA'): ").strip().upper() == 'A'
+    orbital_velocity = float(input("Enter the orbital velocity (in km/s): "))
+    
+    # Calculate the orbital duration and number of orbits
+    results = calculate_orbital_duration(alt_or_sma, is_altitude, orbital_velocity)
+    
+    # Output the results
+    print(f"Orbital Duration: {results['orbital_period_seconds']:.2f} seconds ({results['orbital_period_minutes']:.2f} minutes)")
+    print(f"Orbits in 24 hours: {results['orbits_in_24hrs']:.2f}")
+    print(f"Orbits in 48 hours: {results['orbits_in_48hrs']:.2f}")
+    print(f"Orbits in 76 hours: {results['orbits_in_76hrs']:.2f}")
+
+if __name__ == "__main__":
+    main()
