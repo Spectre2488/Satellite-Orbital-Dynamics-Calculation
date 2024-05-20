@@ -1,0 +1,23 @@
+def calculate_orbital_distance(velocity, period_minutes, period_seconds):
+    # Convert period to seconds
+    total_seconds = (period_minutes * 60) + period_seconds
+    
+    # Calculate orbital distance
+    orbital_distance = velocity * total_seconds
+    
+    return orbital_distance
+
+def main():
+    # Take inputs from the user
+    velocity = float(input("Enter the satellite velocity in km/s: "))
+    period_minutes = int(input("Enter the orbital period in minutes: "))
+    period_seconds = int(input("Enter the additional seconds in orbital period: "))
+    
+    # Calculate orbital distance
+    orbital_distance = calculate_orbital_distance(velocity, period_minutes, period_seconds)
+    
+    # Display the result
+    print(f"The orbital distance is {orbital_distance:.2f} km")
+
+if __name__ == "__main__":
+    main()
