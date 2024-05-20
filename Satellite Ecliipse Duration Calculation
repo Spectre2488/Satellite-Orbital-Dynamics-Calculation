@@ -1,3 +1,5 @@
+#not meant for realtime
+
 import math
 
 def compute_eclipse_duration(altitude, inclination):
