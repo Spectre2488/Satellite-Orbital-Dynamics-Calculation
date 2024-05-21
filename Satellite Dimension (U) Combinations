@@ -1,0 +1,37 @@
+def generate_combinations(u_size):
+    import math
+    
+    # Define the base unit size in cm
+    unit_size = 10.0
+    
+    # Find the integer part and the fractional part of the given U size
+    integer_part = int(u_size)
+    fractional_part = u_size - integer_part
+
+    # Generate all combinations of L, W, H that fit the integer part
+    combinations = []
+    
+    for l in range(1, integer_part + 1):
+        for w in range(1, integer_part // l + 1):
+            h = integer_part / (l * w)
+            if h.is_integer():
+                h = int(h)
+                # Add the extra fractional part to the height if any
+                if fractional_part > 0:
+                    combinations.append((l * unit_size, w * unit_size, (h + fractional_part) * unit_size))
+                else:
+                    combinations.append((l * unit_size, w * unit_size, h * unit_size))
+    
+    return combinations
+
+def main():
+    # Take the U size input from the user
+    u_size = float(input("Enter the satellite size in U (e.g., 1U, 2U, 4.05U, 4.5U, 10U, 100U, etc.): "))
+    
+    # Generate and display all possible L, W, H combinations
+    combinations = generate_combinations(u_size)
+    for (l, w, h) in combinations:
+        print(f"L: {l:.2f} cm, W: {w:.2f} cm, H: {h:.2f} cm")
+
+if __name__ == "__main__":
+    main()
