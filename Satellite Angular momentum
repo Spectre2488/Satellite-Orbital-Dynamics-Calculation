@@ -1,0 +1,30 @@
+def calculate_angular_momentum(r, v):
+    # Calculate the components of the angular momentum vector
+    h_x = r[1] * v[2] - r[2] * v[1]
+    h_y = r[2] * v[0] - r[0] * v[2]
+    h_z = r[0] * v[1] - r[1] * v[0]
+    return h_x, h_y, h_z
+
+# Get user input for the position vector
+r_x_km = float(input("Enter the x-component of the position vector (in kilometers): "))
+r_y_km = float(input("Enter the y-component of the position vector (in kilometers): "))
+r_z_km = float(input("Enter the z-component of the position vector (in kilometers): "))
+
+# Get user input for the velocity vector
+v_x_km_per_s = float(input("Enter the x-component of the velocity vector (in kilometers per second): "))
+v_y_km_per_s = float(input("Enter the y-component of the velocity vector (in kilometers per second): "))
+v_z_km_per_s = float(input("Enter the z-component of the velocity vector (in kilometers per second): "))
+
+# Convert kilometers to meters
+r_x = r_x_km * 1000
+r_y = r_y_km * 1000
+r_z = r_z_km * 1000
+v_x = v_x_km_per_s * 1000
+v_y = v_y_km_per_s * 1000
+v_z = v_z_km_per_s * 1000
+
+# Calculate the components of the angular momentum vector
+h_x, h_y, h_z = calculate_angular_momentum([r_x, r_y, r_z], [v_x, v_y, v_z])
+
+# Print the result
+print(f"The components of the angular momentum vector are: (h_x={h_x}, h_y={h_y}, h_z={h_z})")
