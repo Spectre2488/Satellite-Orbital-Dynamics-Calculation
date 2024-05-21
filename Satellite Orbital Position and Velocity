@@ -1,0 +1,85 @@
+import numpy as np
+
+# Constants
+mu = 398600  # Earth's gravitational parameter, km^3/s^2
+
+# Function to convert degrees to radians
+def deg2rad(degrees):
+    return degrees * np.pi / 180
+
+# Function to calculate the rotation matrix
+def rotation_matrix(omega, inc, Omega):
+    cos_omega = np.cos(deg2rad(omega))
+    sin_omega = np.sin(deg2rad(omega))
+    cos_inc = np.cos(deg2rad(inc))
+    sin_inc = np.sin(deg2rad(inc))
+    cos_Omega = np.cos(deg2rad(Omega))
+    sin_Omega = np.sin(deg2rad(Omega))
+
+    R_z_Omega = np.array([
+        [cos_Omega, -sin_Omega, 0],
+        [sin_Omega, cos_Omega, 0],
+        [0, 0, 1]
+    ])
+
+    R_x_i = np.array([
+        [1, 0, 0],
+        [0, cos_inc, -sin_inc],
+        [0, sin_inc, cos_inc]
+    ])
+
+    R_z_omega = np.array([
+        [cos_omega, -sin_omega, 0],
+        [sin_omega, cos_omega, 0],
+        [0, 0, 1]
+    ])
+
+    return R_z_Omega @ R_x_i @ R_z_omega
+
+# Function to calculate the position and velocity vectors
+def orbital_position_velocity(a, e, i, Omega, omega, nu):
+    # Distance from central body to satellite
+    r = a * (1 - e**2) / (1 + e * np.cos(deg2rad(nu)))
+
+    # Position in the orbital plane
+    x_prime = r * np.cos(deg2rad(nu))
+    y_prime = r * np.sin(deg2rad(nu))
+    r_orbital_plane = np.array([x_prime, y_prime, 0])
+
+    # Velocity in the orbital plane
+    h = np.sqrt(mu * a * (1 - e**2))
+    v_r = (mu / h) * e * np.sin(deg2rad(nu))
+    v_t = (mu / h) * (1 + e * np.cos(deg2rad(nu)))
+
+    v_x_prime = v_r * np.cos(deg2rad(nu)) - v_t * np.sin(deg2rad(nu))
+    v_y_prime = v_r * np.sin(deg2rad(nu)) + v_t * np.cos(deg2rad(nu))
+    v_orbital_plane = np.array([v_x_prime, v_y_prime, 0])
+
+    # Rotation matrix
+    R = rotation_matrix(omega, i, Omega)
+
+    # Transform to the inertial frame
+    r_inertial = R @ r_orbital_plane
+    v_inertial = R @ v_orbital_plane
+
+    return r_inertial, v_inertial
+
+# Main function to get user input and calculate position and velocity
+def main():
+    # Get user input for orbital elements
+    a = float(input("Enter the semi-major axis (a) in km: "))
+    e = float(input("Enter the eccentricity (e): "))
+    i = float(input("Enter the inclination (i) in degrees: "))
+    Omega = float(input("Enter the right ascension of the ascending node (Ω) in degrees: "))
+    omega = float(input("Enter the argument of perigee (ω) in degrees: "))
+    nu = float(input("Enter the true anomaly (ν) in degrees: "))
+
+    # Calculate position and velocity vectors
+    r, v = orbital_position_velocity(a, e, i, Omega, omega, nu)
+
+    # Print results
+    print("Position vector (km):", r)
+    print("Velocity vector (km/s):", v)
+
+if __name__ == "__main__":
+    main()
