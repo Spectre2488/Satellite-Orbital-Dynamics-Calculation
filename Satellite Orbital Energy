@@ -1,0 +1,23 @@
+import math
+
+def calculate_specific_orbital_energy(velocity_km_s, distance_km, mu):
+    # Convert velocity from km/s to m/s
+    velocity_m_s = velocity_km_s * 1000
+    # Convert distance from km to m
+    distance_m = distance_km * 1000
+    # Calculate specific orbital energy
+    specific_orbital_energy = (velocity_m_s**2) / 2 - mu / distance_m
+    return specific_orbital_energy
+
+# Standard gravitational parameter of Earth in m^3/s^2
+mu_earth = 3.986e14
+
+# Get user input
+velocity_km_s = float(input("Enter the velocity of the satellite (in kilometers per second): "))
+distance_km = float(input("Enter the semi-major axis (distance from the center of the Earth to the satellite) (in kilometers): "))
+
+# Calculate specific orbital energy
+specific_orbital_energy = calculate_specific_orbital_energy(velocity_km_s, distance_km, mu_earth)
+
+# Print the result
+print(f"The specific orbital energy of the satellite is {specific_orbital_energy:.2f} J/kg.")
