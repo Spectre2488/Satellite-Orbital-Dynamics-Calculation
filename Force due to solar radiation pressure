@@ -1,0 +1,27 @@
+def calculate_solar_radiation_pressure(distance_from_sun, solar_constant, cross_sectional_area):
+    # Speed of light in m/s
+    speed_of_light = 299792458  # m/s
+    # Convert distance from Sun to meters
+    distance_from_sun_m = distance_from_sun * 1e3  # km to meters
+    # Calculate solar radiation pressure
+    solar_radiation_pressure = (solar_constant / speed_of_light) * cross_sectional_area
+    return solar_radiation_pressure
+
+def main():
+    try:
+        # Get user input for the distance from the Sun in AU
+        distance_from_sun = float(input("Enter the distance from the Sun in AU: "))
+        # Get user input for the solar constant in W/m^2
+        solar_constant = float(input("Enter the solar constant in W/m^2: "))
+        # Get user input for the cross-sectional area of the satellite in m^2
+        cross_sectional_area = float(input("Enter the cross-sectional area of the satellite in m^2: "))
+        # Calculate solar radiation pressure
+        srp = calculate_solar_radiation_pressure(distance_from_sun, solar_constant, cross_sectional_area)
+        # Display the result
+        print(f"The force due to solar radiation pressure is approximately {srp:.2e} N.")
+
+    except ValueError:
+        print("Invalid input. Please enter numerical values.")
+
+if __name__ == "__main__":
+    main()
