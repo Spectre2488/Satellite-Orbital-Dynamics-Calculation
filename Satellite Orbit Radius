@@ -1,0 +1,39 @@
+import math
+
+def calculate_orbital_radius(velocity, period_minutes, period_seconds):
+    # Convert period to seconds
+    total_seconds = (period_minutes * 60) + period_seconds
+    
+    # Calculate orbital distance
+    orbital_distance = velocity * total_seconds
+    
+    # Calculate the orbit radius using Kepler's Third Law rearranged
+    # r = (GM(T/2pi)^2)^(1/3)
+    G = 6.67430e-11  # Gravitational constant in m^3 kg^-1 s^-2
+    M = 5.972e24     # Mass of Earth in kg
+    
+    # Convert orbital period to seconds for the formula
+    T = total_seconds
+    
+    # Calculate orbit radius in meters
+    r_meters = (G * M * (T / (2 * math.pi))**2) ** (1 / 3)
+    
+    # Convert radius from meters to kilometers
+    r_kilometers = r_meters / 1000
+    
+    return r_kilometers
+
+def main():
+    # Take inputs from the user
+    velocity = float(input("Enter the satellite velocity in km/s: "))
+    period_minutes = int(input("Enter the orbital period in minutes: "))
+    period_seconds = int(input("Enter the additional seconds in orbital period: "))
+    
+    # Calculate orbit radius
+    orbit_radius = calculate_orbital_radius(velocity, period_minutes, period_seconds)
+    
+    # Display the result
+    print(f"The orbit radius is {orbit_radius:.2f} km")
+
+if __name__ == "__main__":
+    main()
