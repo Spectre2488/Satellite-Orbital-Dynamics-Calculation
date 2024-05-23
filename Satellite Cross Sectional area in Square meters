@@ -1,0 +1,47 @@
+def calculate_cross_sectional_area(shape):
+    if shape == "sphere":
+        radius_cm = float(input("Enter the radius of the sphere in centimeters: "))
+        radius_m = radius_cm / 100  # Convert cm to meters
+        area = 3.14159 * (radius_m ** 2)  # πr^2
+    elif shape == "cube":
+        side_cm = float(input("Enter the side length of the cube in centimeters: "))
+        side_m = side_cm / 100  # Convert cm to meters
+        area = side_m ** 2  # side^2
+    elif shape == "cylinder":
+        diameter_cm = float(input("Enter the diameter of the cylinder in centimeters: "))
+        diameter_m = diameter_cm / 100  # Convert cm to meters
+        area = 3.14159 * (diameter_m / 2) ** 2  # π(d/2)^2
+    elif shape == "flat plate":
+        width_cm = float(input("Enter the width of the flat plate in centimeters: "))
+        height_cm = float(input("Enter the height of the flat plate in centimeters: "))
+        width_m = width_cm / 100  # Convert cm to meters
+        height_m = height_cm / 100  # Convert cm to meters
+        area = width_m * height_m  # width * height
+    elif shape == "rectangular prism":
+        width_cm = float(input("Enter the width of the rectangular prism in centimeters: "))
+        height_cm = float(input("Enter the height of the rectangular prism in centimeters: "))
+        width_m = width_cm / 100  # Convert cm to meters
+        height_m = height_cm / 100  # Convert cm to meters
+        area = width_m * height_m  # width * height
+    else:
+        print("Unknown shape. Please enter a valid shape.")
+        return None
+
+    return area
+
+def main():
+    try:
+        # Get user input for the shape of the satellite
+        shape = input("Enter the shape of the satellite (sphere, cube, cylinder, flat plate, rectangular prism): ").strip().lower()
+        
+        # Calculate the cross-sectional area for the given shape
+        area = calculate_cross_sectional_area(shape)
+        
+        if area is not None:
+            print(f"The cross-sectional area for a {shape} is approximately {area:.2f} square meters.")
+    
+    except ValueError:
+        print("Invalid input. Please enter numerical values for dimensions.")
+
+if __name__ == "__main__":
+    main()
