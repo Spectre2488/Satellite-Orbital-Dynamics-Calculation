@@ -1,0 +1,17 @@
+def calculate_orbital_altitude(semi_major_axis):
+    # Radius of the Earth in km
+    radius_of_earth = 6371  # km
+    # Calculate the orbital altitude
+    orbital_altitude = semi_major_axis - radius_of_earth
+    return orbital_altitude
+
+def main():
+    # Get user input for the semi-major axis
+    semi_major_axis = float(input("Enter the semi-major axis in km: "))
+    # Calculate the orbital altitude
+    orbital_altitude = calculate_orbital_altitude(semi_major_axis)
+    # Display the result
+    print(f"The orbital altitude is approximately {orbital_altitude:.2f} km.")
+
+if __name__ == "__main__":
+    main()
