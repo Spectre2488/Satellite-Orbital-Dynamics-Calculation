@@ -6,7 +6,7 @@ def main():
         print(f"The solar constant is approximately {total_solar_irradiance:.2f} W/m^2.")
 
     except ValueError:
-        print("Invalid input. Please enter a numerical value for total solar irradiance.")
+        print("Invalid input. Please enter a numerical value for total solar irradiance. Default is 1361 ")
 
 if __name__ == "__main__":
     main()
