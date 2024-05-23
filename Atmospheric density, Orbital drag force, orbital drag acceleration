@@ -49,3 +49,90 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+#above is for default if you want accurate according to J2 Perturbation and orbital parameters uncomment below code and use it 
+
+
+'''
+import math
+
+def calculate_atmospheric_density(altitude):
+    # Simplified atmospheric density model (exponential atmosphere)
+    if altitude < 180:  # Below 180 km
+        return 1.2e-9  # Placeholder value, atmosphere is very variable
+    elif altitude < 300:  # 180-300 km
+        return 2.2e-10
+    elif altitude < 400:  # 300-400 km
+        return 5.0e-11
+    elif altitude < 500:  # 400-500 km
+        return 1.0e-11
+    elif altitude < 600:  # 500-600 km
+        return 4.0e-12
+    else:  # Above 600 km
+        return 2.5e-12
+
+def calculate_drag_force(density, velocity, drag_coefficient, cross_sectional_area):
+    # Drag force formula: F_drag = 0.5 * density * velocity^2 * drag_coefficient * cross_sectional_area
+    return 0.5 * density * (velocity ** 2) * drag_coefficient * cross_sectional_area
+
+def calculate_drag_acceleration(drag_force, mass):
+    # Drag acceleration formula: a_drag = F_drag / mass
+    return drag_force / mass
+
+def calculate_j2_perturbation(semi_major_axis, eccentricity, inclination):
+    # Constants
+    J2 = 1.08263e-3
+    R_earth = 6378.1  # Earth's equatorial radius in km
+    mu = 398600  # Earth's gravitational parameter in km^3/s^2
+    
+    # Convert inclination to radians
+    inclination_rad = math.radians(inclination)
+    
+    # Calculate the rate of change of the RAAN (Omega dot) and argument of perigee (omega dot)
+    a = semi_major_axis
+    e = eccentricity
+    cos_i = math.cos(inclination_rad)
+    
+    omega_dot = (3/4) * J2 * (R_earth / a)**2 * math.sqrt(mu) / a**(7/2) * (1 - e**2)**(-2) * (5 * cos_i**2 - 1)
+    raan_dot = -(3/2) * J2 * (R_earth / a)**2 * math.sqrt(mu) / a**(7/2) * (1 - e**2)**(-2) * cos_i
+    
+    return raan_dot, omega_dot
+
+def main():
+    try:
+        # Get user inputs
+        altitude = float(input("Enter the orbital altitude in km: "))
+        semi_major_axis = altitude + 6378.1  # Adding Earth's radius to altitude to get semi-major axis
+        velocity = float(input("Enter the orbital velocity in km/s: ")) * 1000  # Convert to m/s
+        drag_coefficient = float(input("Enter the drag coefficient of the satellite: "))
+        cross_sectional_area = float(input("Enter the cross-sectional area of the satellite in m^2: "))
+        mass = float(input("Enter the mass of the satellite in kg: "))
+        eccentricity = float(input("Enter the orbital eccentricity (typically 0 for circular orbits): "))
+        inclination = float(input("Enter the orbital inclination in degrees: "))
+        
+        # Calculate atmospheric density
+        density = calculate_atmospheric_density(altitude)
+        
+        # Calculate drag force
+        drag_force = calculate_drag_force(density, velocity, drag_coefficient, cross_sectional_area)
+        
+        # Calculate drag acceleration
+        drag_acceleration = calculate_drag_acceleration(drag_force, mass)
+        
+        # Calculate J2 perturbations
+        raan_dot, omega_dot = calculate_j2_perturbation(semi_major_axis, eccentricity, inclination)
+        
+        # Display the results
+        print(f"Atmospheric density at {altitude} km: {density:.2e} kg/m^3")
+        print(f"Drag force: {drag_force:.2f} N")
+        print(f"Drag acceleration: {drag_acceleration:.6f} m/s^2")
+        print(f"Rate of change of RAAN due to J2 perturbation: {raan_dot:.6e} rad/s")
+        print(f"Rate of change of argument of perigee due to J2 perturbation: {omega_dot:.6e} rad/s")
+
+    except ValueError:
+        print("Invalid input. Please enter numerical values for dimensions.")
+
+if __name__ == "__main__":
+    main()
+'''
