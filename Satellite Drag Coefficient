@@ -1,0 +1,30 @@
+def get_drag_coefficient(shape):
+    # Typical drag coefficients for different shapes
+    drag_coefficients = {
+        "sphere": 2.1,
+        "cube": 2.05,
+        "cylinder": 1.15,
+        "flat plate": 2.0,
+        "streamlined": 0.1
+    }
+    
+    return drag_coefficients.get(shape.lower(), None)
+
+def main():
+    try:
+        # Get user input for the shape of the satellite
+        shape = input("Enter the shape of the satellite (sphere, cube, cylinder, flat plate, streamlined): ").strip().lower()
+        
+        # Get the drag coefficient for the given shape
+        drag_coefficient = get_drag_coefficient(shape)
+        
+        if drag_coefficient is not None:
+            print(f"The drag coefficient for a {shape} is approximately {drag_coefficient}.")
+        else:
+            print("Unknown shape. Please enter one of the following: sphere, cube, cylinder, flat plate, streamlined.")
+    
+    except ValueError:
+        print("Invalid input. Please enter a valid shape.")
+
+if __name__ == "__main__":
+    main()
