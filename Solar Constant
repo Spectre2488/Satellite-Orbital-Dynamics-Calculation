@@ -1,0 +1,12 @@
+def main():
+    try:
+        # Get user input for the total solar irradiance in watts
+        total_solar_irradiance = float(input("Enter the total solar irradiance in watts: "))
+        # Display the result
+        print(f"The solar constant is approximately {total_solar_irradiance:.2f} W/m^2.")
+
+    except ValueError:
+        print("Invalid input. Please enter a numerical value for total solar irradiance.")
+
+if __name__ == "__main__":
+    main()
