@@ -1,0 +1,27 @@
+# Function to calculate orbital acceleration
+def calculate_orbital_acceleration(velocity, radius):
+    return (velocity ** 2) / radius
+
+# Function to get user inputs and compute the acceleration
+def main():
+    try:
+        # Get user inputs
+        orbital_radius = float(input("Enter the orbital radius in km: "))
+        orbital_velocity = float(input("Enter the orbital velocity in km/s: "))
+
+        # Convert orbital radius from km to meters for consistency
+        orbital_radius_m = orbital_radius * 1000
+
+        # Calculate the orbital acceleration
+        orbital_acceleration = calculate_orbital_acceleration(orbital_velocity * 1000, orbital_radius_m)
+
+        # Convert acceleration from m/s^2 to km/s^2 for consistency
+        orbital_acceleration_km = orbital_acceleration / 1000
+
+        # Display the results
+        print(f"Orbital acceleration is {orbital_acceleration:.2f} m/s^2 or {orbital_acceleration_km:.5f} km/s^2")
+    except ValueError:
+        print("Invalid input. Please enter numerical values for the orbital radius and velocity.")
+
+if __name__ == "__main__":
+    main()
