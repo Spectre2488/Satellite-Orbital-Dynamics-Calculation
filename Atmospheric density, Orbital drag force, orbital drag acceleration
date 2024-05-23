@@ -1,0 +1,51 @@
+def get_atmospheric_density(altitude):
+    # Approximate atmospheric densities for different altitudes in kg/m^3
+    density_table = {
+        200: 5.5e-7,
+        300: 2.2e-8,
+        400: 4.0e-9,
+        500: 1.0e-9,
+        800: 1.0e-10,
+        1000: 3.0e-11,
+    }
+    
+    # Find the closest altitude in the table
+    closest_altitude = min(density_table.keys(), key=lambda k: abs(k - altitude))
+    
+    return density_table[closest_altitude]
+
+def calculate_orbital_drag(density, velocity, drag_coefficient, cross_sectional_area, mass):
+    # Calculate the drag force
+    drag_force = 0.5 * density * (velocity ** 2) * drag_coefficient * cross_sectional_area
+    # Calculate the orbital drag acceleration
+    drag_acceleration = drag_force / mass
+    return drag_force, drag_acceleration
+
+def main():
+    try:
+        # Get user inputs
+        altitude = float(input("Enter the orbital altitude in km: "))
+        velocity = float(input("Enter the orbital velocity in km/s: "))
+        drag_coefficient = float(input("Enter the drag coefficient of the satellite: "))
+        cross_sectional_area = float(input("Enter the cross-sectional area of the satellite in m^2: "))
+        mass = float(input("Enter the mass of the satellite in kg: "))
+        
+        # Get the atmospheric density based on altitude
+        density = get_atmospheric_density(altitude)
+        
+        # Convert velocity from km/s to m/s for consistency
+        velocity_m_s = velocity * 1000
+
+        # Calculate the orbital drag force and acceleration
+        drag_force, drag_acceleration = calculate_orbital_drag(density, velocity_m_s, drag_coefficient, cross_sectional_area, mass)
+
+        # Display the results
+        print(f"Atmospheric density at {altitude} km is approximately {density:.2e} kg/m^3")
+        print(f"Orbital drag force is {drag_force:.2f} N")
+        print(f"Orbital drag acceleration is {drag_acceleration:.6f} m/s^2")
+
+    except ValueError:
+        print("Invalid input. Please enter numerical values for all inputs.")
+
+if __name__ == "__main__":
+    main()
