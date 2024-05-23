@@ -1,0 +1,46 @@
+import math
+
+def calculate_orbital_energy(mass_orbiting, distance_to_center, mass_central):
+    # Gravitational constant
+    G = 6.67430e-11  # m^3/kg/s^2
+
+    # Convert distance to meters if it's in kilometers
+    if distance_to_center < 1e6:  # If input is in kilometers
+        distance_to_center *= 1e3  # Convert km to meters
+
+    # Calculate orbital velocity
+    orbital_velocity = math.sqrt(G * mass_central / distance_to_center)
+
+    # Kinetic energy (for circular orbit)
+    kinetic_energy = 0.5 * mass_orbiting * orbital_velocity**2
+
+    # Gravitational potential energy
+    potential_energy = - (G * mass_orbiting * mass_central) / distance_to_center
+
+    # Total orbital energy
+    total_energy = kinetic_energy + potential_energy
+
+    return total_energy
+
+def main():
+    try:
+        # Get user input for the mass of the orbiting object in kilograms
+        mass_of_satellite = float(input("Enter the mass of the orbiting object in kilograms: "))
+
+        # Get user input for the distance to the center of the orbit in kilometers
+        radius_of_orbit_km = float(input("Enter the distance to the center of the orbit in kilometers: "))
+
+        # Predefine the mass of the central body (e.g., Earth) in kilograms
+        mass_of_earth = 5.972e24  # kg (mass of Earth)
+
+        # Calculate the orbital energy
+        orbital_energy = calculate_orbital_energy(mass_of_satellite, radius_of_orbit_km, mass_of_earth)
+        
+        # Display the result
+        print(f"The orbital energy is approximately {orbital_energy:.2f} joules.")
+
+    except ValueError:
+        print("Invalid input. Please enter numerical values.")
+
+if __name__ == "__main__":
+    main()
