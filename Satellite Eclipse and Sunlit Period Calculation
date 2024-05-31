@@ -1,0 +1,43 @@
+import math
+
+# Constants
+earth_radius_km = 6371  # Radius of Earth in kilometers
+
+def satellite_orbit_durations(altitude_km, orbital_period_minutes, orbital_velocity_km_s):
+    # Calculate orbital radius
+    orbital_radius_km = earth_radius_km + altitude_km
+
+    # Convert orbital period from minutes to seconds
+    orbital_period_seconds = orbital_period_minutes * 60
+
+    # Calculate orbital circumference
+    orbital_circumference_km = 2 * math.pi * orbital_radius_km
+
+    # Calculate angular velocity
+    angular_velocity = 2 * math.pi / orbital_period_seconds
+
+    # Calculate the angular width of the Earth's shadow (umbra)
+    earth_diameter_km = 2 * earth_radius_km
+    theta = 2 * math.asin(earth_diameter_km / (2 * orbital_radius_km))
+
+    # Calculate eclipse duration
+    eclipse_duration_seconds = (theta / (2 * math.pi)) * orbital_period_seconds
+
+    # Calculate sunlit duration
+    sunlit_duration_seconds = orbital_period_seconds - eclipse_duration_seconds
+
+    # Convert durations back to minutes
+    eclipse_duration_minutes = eclipse_duration_seconds / 60
+    sunlit_duration_minutes = sunlit_duration_seconds / 60
+
+    return eclipse_duration_minutes, sunlit_duration_minutes
+
+# Example usage:
+altitude = float(input("Enter the altitude of the satellite (in km): "))
+orbital_period = float(input("Enter the orbital period of the satellite (in minutes): "))
+orbital_velocity = float(input("Enter the orbital velocity of the satellite (in km/s): "))
+
+eclipse_duration, sunlit_duration = satellite_orbit_durations(altitude, orbital_period, orbital_velocity)
+
+print(f"Eclipse Duration: {eclipse_duration:.2f} minutes")
+print(f"Sunlit Duration: {sunlit_duration:.2f} minutes")
