@@ -1,0 +1,39 @@
+import numpy as np
+
+def get_input(prompt):
+    return float(input(prompt))
+
+def compute_orientation_angles(vx, vy, vz):
+    magnitude = np.sqrt(vx**2 + vy**2 + vz**2)
+    u_x = vx / magnitude
+    u_y = vy / magnitude
+    u_z = vz / magnitude
+    
+    yaw = np.arctan2(u_y, u_x)  # In radians
+    pitch = np.arcsin(u_z)      # In radians
+    roll = np.arctan2(u_z, u_x) # Example, based on different conventions
+    
+    return np.degrees(yaw), np.degrees(pitch), np.degrees(roll)  # Convert to degrees
+
+def main():
+    # Get the number of reference points
+    num_points = int(get_input("Enter the number of reference points (1 to 5): "))
+    if num_points < 1 or num_points > 5:
+        print("Please enter a number between 3 and 5.")
+        return
+    
+    eci_velocities = []
+    for i in range(num_points):
+        print(f"\nReference point {i+1}:")
+        vx = get_input("Enter ECI velocity at x (m/s): ")
+        vy = get_input("Enter ECI velocity at y (m/s): ")
+        vz = get_input("Enter ECI velocity at z (m/s): ")
+        eci_velocities.append((vx, vy, vz))
+
+    print("\nOrientation Angles (in degrees):")
+    for i, (vx, vy, vz) in enumerate(eci_velocities):
+        yaw, pitch, roll = compute_orientation_angles(vx, vy, vz)
+        print(f"Reference point {i+1}: Yaw = {yaw:.2f}°, Pitch = {pitch:.2f}°, Roll = {roll:.2f}°")
+    
+if __name__ == "__main__":
+    main()
