@@ -1,0 +1,75 @@
+#ACP SIMULATE ADCS TELEMETRY This is accurate code For default code uncomment below code 
+import numpy as np
+
+def get_input(prompt):
+    return float(input(prompt))
+
+def verify_velocity(vx, vy, vz, orbital_velocity):
+    magnitude = np.sqrt(vx**2 + vy**2 + vz**2)
+    return np.isclose(magnitude, orbital_velocity, atol=0.01), magnitude
+
+def main():
+    # User inputs
+    altitude = get_input("Enter the satellite altitude (km): ")
+    orbital_velocity = get_input("Enter the orbital velocity (km/s): ")
+    orbital_duration = get_input("Enter the orbital duration (seconds): ")
+    
+    print("\nEnter the ECI velocity components for three reference points:")
+    
+    # ECI velocity components for three reference points
+    eci_velocities = []
+    for i in range(3):
+        print(f"\nReference point {i+1}:")
+        vx = get_input("Enter ECI velocity at x (m/s): ") / 1000  # Convert to km/s
+        vy = get_input("Enter ECI velocity at y (m/s): ") / 1000  # Convert to km/s
+        vz = get_input("Enter ECI velocity at z (m/s): ") / 1000  # Convert to km/s
+        eci_velocities.append((vx, vy, vz))
+
+    print("\nVerification results:")
+    for i, (vx, vy, vz) in enumerate(eci_velocities):
+        is_correct, magnitude = verify_velocity(vx, vy, vz, orbital_velocity)
+        if is_correct:
+            print(f"Reference point {i+1}: ECI velocity is correct with a magnitude of {magnitude:.5f} km/s.")
+        else:
+            print(f"Reference point {i+1}: ECI velocity is incorrect. Calculated magnitude is {magnitude:.5f} km/s.")
+    
+if __name__ == "__main__":
+    main()
+'''
+import numpy as np
+
+def get_input(prompt):
+    return float(input(prompt))
+
+def verify_velocity(vx, vy, vz, orbital_velocity):
+    magnitude = np.sqrt(vx**2 + vy**2 + vz**2)
+    return np.isclose(magnitude, orbital_velocity, atol=0.01), magnitude
+
+def main():
+    # User inputs
+    altitude = get_input("Enter the satellite altitude (km): ")
+    orbital_velocity = get_input("Enter the orbital velocity (km/s): ")
+    orbital_duration = get_input("Enter the orbital duration (seconds): ")
+    
+    print("\nEnter the ECI velocity components for three reference points:")
+    
+    # ECI velocity components for three reference points
+    eci_velocities = []
+    for i in range(3):
+        print(f"\nReference point {i+1}:")
+        vx = get_input("Enter ECI velocity at x (m/s): ") / 1000  # Convert to km/s
+        vy = get_input("Enter ECI velocity at y (m/s): ") / 1000  # Convert to km/s
+        vz = get_input("Enter ECI velocity at z (m/s): ") / 1000  # Convert to km/s
+        eci_velocities.append((vx, vy, vz))
+
+    print("\nVerification results:")
+    for i, (vx, vy, vz) in enumerate(eci_velocities):
+        is_correct, magnitude = verify_velocity(vx, vy, vz, orbital_velocity)
+        if is_correct:
+            print(f"Reference point {i+1}: ECI velocity is correct with a magnitude of {magnitude:.2f} km/s.")
+        else:
+            print(f"Reference point {i+1}: ECI velocity is incorrect. Calculated magnitude is {magnitude:.2f} km/s.")
+    
+if __name__ == "__main__":
+    main()
+'''
