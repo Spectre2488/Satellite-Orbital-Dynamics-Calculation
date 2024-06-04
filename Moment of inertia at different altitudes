@@ -1,0 +1,39 @@
+import numpy as np
+
+def get_input(prompt):
+    return float(input(prompt))
+
+def calculate_moments_of_inertia(m, a):
+    I = (1/6) * m * a**2
+    return I, I, I
+
+def main():
+    # Get user inputs
+    sat_size_u = get_input("Enter the size of the satellite in U (e.g., 1 for 1U, 3 for 3U): ")
+    mass = get_input("Enter the mass of the satellite in kg: ")
+    alt_start = int(get_input("Enter the starting altitude in km: "))
+    alt_end = int(get_input("Enter the ending altitude in km: "))
+    alt_step = int(get_input("Enter the step size for altitude in km: "))
+
+    # Calculate the side length of the CubeSat
+    side_length = 0.1 * sat_size_u  # Each "U" is 10 cm
+
+    # Generate the range of altitudes
+    altitudes = range(alt_start, alt_end + 1, alt_step)
+
+    for altitude in altitudes:
+        Ixx, Iyy, Izz = calculate_moments_of_inertia(mass, side_length)
+        Ixy = Ixz = Iyz = 0  # Assuming zero for simplicity
+
+        print(f"Altitude: {altitude} km")
+        print("Moment of Inertia Matrix:")
+        inertia_matrix = np.array([
+            [Ixx, Ixy, Ixz],
+            [Ixy, Iyy, Iyz],
+            [Ixz, Iyz, Izz]
+        ])
+        print(inertia_matrix)
+        print()
+
+if __name__ == "__main__":
+    main()
