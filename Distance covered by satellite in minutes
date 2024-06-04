@@ -1,0 +1,13 @@
+# Function to calculate distance covered
+def distance_covered(velocity, time):
+    return velocity * time
+
+# Input from user
+altitude = float(input("Enter altitude of the satellite (in km): "))
+orbital_velocity = float(input("Enter orbital velocity of the satellite (in km/s): "))
+orbit_duration = float(input("Enter orbit duration (in minutes): "))
+
+# Calculate distance covered for each minute up to 120 minutes
+for t in range(1, min(int(orbit_duration + 1), 120) + 1):
+    distance = distance_covered(orbital_velocity, t * 60)  # Convert minutes to seconds
+    print(f"Distance covered at {t} minute(s): {distance:.2f} km")
