@@ -1,0 +1,9 @@
+# Given values
+calculated_velocity = 7.712  # km/s
+true_velocity = 7.64  # km/s
+
+# Calculate the percentage difference
+percentage_difference = (abs(calculated_velocity - true_velocity) / true_velocity) * 100
+
+# Print the result
+print(percentage_difference)
