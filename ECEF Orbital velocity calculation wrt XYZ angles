@@ -1,0 +1,29 @@
+import numpy as np
+
+def get_input(prompt):
+    return float(input(prompt))
+
+def calculate_velocity_magnitude(vx, vy, vz):
+    return np.sqrt(vx**2 + vy**2 + vz**2)
+
+def main():
+    num_points = int(get_input("Enter the number of reference points (1 to 5): "))
+    if num_points < 1 or num_points > 5:
+        print("Please enter a number between 1 and 5.")
+        return
+    
+    ecef_velocities = []
+    for i in range(num_points):
+        print(f"\nReference point {i+1}:")
+        vx = get_input("Enter ECEF velocity at x (m/s): ")
+        vy = get_input("Enter ECEF velocity at y (m/s): ")
+        vz = get_input("Enter ECEF velocity at z (m/s): ")
+        ecef_velocities.append((vx, vy, vz))
+    
+    for i, (vx, vy, vz) in enumerate(ecef_velocities):
+        velocity_magnitude = calculate_velocity_magnitude(vx, vy, vz)
+        orbital_velocity_kms = velocity_magnitude / 1000  # Convert to km/s
+        print(f"Calculated orbital velocity for reference point {i+1}: {orbital_velocity_kms:.5f} km/s")
+    
+if __name__ == "__main__":
+    main()
