@@ -45,3 +45,45 @@ inclination = float(input("Enter the inclination of the satellite in degrees: ")
 
 # Compute and display the eclipse duration
 eclipse_duration = compute_eclipse_duration(altitude, inclination)
+'''
+import math
+
+def compute_eclipse_duration(altitude):
+    # Constants
+    Re = 6378.1  # Earth's equatorial radius in km
+    GM = 3.986004418e5  # Earth's gravitational constant in km^3/s^2
+
+    # Compute the mean motion (n)
+    n = math.sqrt(GM / (Re + altitude)**3)  # in rad/s
+
+    # Compute the orbital period (T)
+    T = 2 * math.pi / n  # in seconds
+
+    # Compute the critical beta angle (beta_star)
+    beta_star = math.asin(Re / (Re + altitude))  # in radians
+
+    # Assume beta is zero for maximum eclipse duration
+    beta = 0  # in radians
+
+    # Compute the eclipse fraction (fe)
+    if abs(beta) < beta_star:
+        fe = (1 / math.pi) * math.acos(math.sqrt(altitude**2 + 2 * Re * altitude) / ((Re + altitude) * math.cos(beta)))
+    else:
+        fe = 0
+
+    # Compute the eclipse duration (Te)
+    eclipse_duration = T * fe  # in seconds
+
+    # Convert eclipse duration to minutes
+    eclipse_duration = eclipse_duration / 60  # in minutes
+
+    # Display the result
+    print(f'Eclipse Duration: {eclipse_duration:.2f} minutes')
+    return eclipse_duration
+
+# Take input from the user
+altitude = float(input("Enter the altitude of the satellite in kilometers: "))
+
+# Compute and display the eclipse duration
+eclipse_duration = compute_eclipse_duration(altitude)
+'''
