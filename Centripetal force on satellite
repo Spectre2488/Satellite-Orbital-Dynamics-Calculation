@@ -1,0 +1,14 @@
+def calculate_centripetal_force():
+    # Take user inputs
+    mass = float(input("Enter the mass of the satellite (in kg): "))
+    velocity = float(input("Enter the orbital velocity of the satellite (in km/s): ")) * 1000  # convert km/s to m/s
+    radius = float(input("Enter the radius of the orbit (in km): ")) * 1000  # convert km to m
+
+    # Calculate the centripetal force
+    centripetal_force = (mass * velocity ** 2) / radius
+
+    # Print the result
+    print(f"The centripetal force acting on the satellite is {centripetal_force:.2f} N")
+
+# Call the function to execute the calculation
+calculate_centripetal_force()
