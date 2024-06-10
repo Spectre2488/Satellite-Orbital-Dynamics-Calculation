@@ -1,0 +1,63 @@
+def calculate_centripetal_force():
+    import math
+
+    # Constants
+    G = 6.67430e-11  # gravitational constant in m^3 kg^-1 s^-2
+    M = 5.972e24     # mass of the Earth in kg
+    mu = G * M       # standard gravitational parameter in m^3 s^-2
+
+    # Take user inputs
+    mass = float(input("Enter the mass of the satellite (in kg): "))
+    semi_major_axis = float(input("Enter the semi-major axis of the orbit (in km): ")) * 1000  # convert km to m
+    semi_minor_axis = float(input("Enter the semi-minor axis of the orbit (in km): ")) * 1000  # convert km to m
+    orbit_duration = float(input("Enter the duration of the orbit (in seconds): "))
+
+    # Calculate the distances at apogee and perigee
+    apogee_distance = semi_major_axis + math.sqrt(semi_major_axis**2 - semi_minor_axis**2)
+    perigee_distance = semi_major_axis - math.sqrt(semi_major_axis**2 - semi_minor_axis**2)
+
+    # Calculate the orbital velocities at apogee and perigee
+    velocity_apogee = math.sqrt(mu * (2 / apogee_distance - 1 / semi_major_axis))
+    velocity_perigee = math.sqrt(mu * (2 / perigee_distance - 1 / semi_major_axis))
+
+    # Calculate the centripetal forces at apogee and perigee
+    centripetal_force_apogee = (mass * velocity_apogee ** 2) / apogee_distance
+    centripetal_force_perigee = (mass * velocity_perigee ** 2) / perigee_distance
+
+    # Print the results at apogee and perigee
+    print(f"The centripetal force acting on the satellite at apogee is {centripetal_force_apogee:.2f} N")
+    print(f"The centripetal force acting on the satellite at perigee is {centripetal_force_perigee:.2f} N")
+
+    # Calculate centripetal forces at different time intervals
+    num_intervals = 10  # Number of intervals to calculate
+    interval_time = orbit_duration / num_intervals
+
+    print("\nCentripetal forces at different time intervals in the orbit:")
+    for i in range(1, num_intervals + 1):
+        time = i * interval_time
+        # Mean anomaly (M) at given time
+        mean_anomaly = (2 * math.pi * time) / orbit_duration
+
+        # Estimate eccentric anomaly (E) using Newton's method
+        eccentricity = math.sqrt(1 - (semi_minor_axis**2 / semi_major_axis**2))
+        E = mean_anomaly
+        for _ in range(10):  # Iterate to refine the value of E
+            E = E - (E - eccentricity * math.sin(E) - mean_anomaly) / (1 - eccentricity * math.cos(E))
+
+        # True anomaly (θ) from eccentric anomaly (E)
+        true_anomaly = 2 * math.atan2(math.sqrt(1 + eccentricity) * math.sin(E / 2), math.sqrt(1 - eccentricity) * math.cos(E / 2))
+
+        # Distance (r) at true anomaly
+        distance = semi_major_axis * (1 - eccentricity**2) / (1 + eccentricity * math.cos(true_anomaly))
+
+        # Orbital velocity at given distance
+        velocity = math.sqrt(mu * (2 / distance - 1 / semi_major_axis))
+
+        # Centripetal force at given distance
+        centripetal_force = (mass * velocity ** 2) / distance
+
+        # Print the result for the current interval
+        print(f"At time {time:.2f} s: Centripetal force = {centripetal_force:.2f} N")
+
+# Call the function to execute the calculation
+calculate_centripetal_force()
