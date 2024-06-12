@@ -1,0 +1,50 @@
+def calculate_average_data_generated(orbit_duration, operation_duration, gsd, swath_width, ground_speed):
+    # Number of pixels across the swath
+    pixels_across_swath = swath_width * 1000 / gsd  # Convert swath width from km to meters
+    
+    # Ground length covered during the operation duration
+    ground_length_covered = ground_speed * operation_duration * 60 * 1000  # Convert operation duration to seconds and km to meters
+    
+    # Total number of pixels in an image
+    total_pixels = pixels_across_swath * (ground_length_covered / gsd)
+    
+    # Data per pixel (considering RGB Bayer pattern, 1.5 bytes per pixel)
+    data_per_pixel = 1.5  # bytes
+    
+    # Total data generated
+    total_data = total_pixels * data_per_pixel  # bytes
+    
+    # Convert bytes to gigabytes (1 GB = 10^9 bytes)
+    total_data_gb = total_data / (10**9)
+    
+    # Convert bytes to megabytes (1 MB = 10^6 bytes)
+    total_data_mb = total_data / (10**6)
+    
+    return total_data_gb, total_data_mb
+
+# Get user inputs
+print("Enter the payload specifications:")
+payload = input("Payload: ")
+size = input("Size: ")
+mass = float(input("Mass (kg): "))
+power = float(input("Power (W): "))
+aperture = input("Aperture: ")
+gsd = float(input("Ground Sampling Distance (meters): "))
+rgb_bayer = input("RGB Bayer (Y/N): ").lower() == 'y'
+swath_width = float(input("Swath Width (km): "))
+orbit_duration = float(input("Orbit Duration (minutes): "))
+operation_duration = float(input("Operation Duration per Orbit (minutes): "))
+
+# Define a typical ground speed for LEO satellites in km/s
+ground_speed = 7.5  # km/s
+
+# Calculate the average data generated per orbit
+average_data_gb, average_data_mb = calculate_average_data_generated(
+    orbit_duration,
+    operation_duration,
+    gsd,
+    swath_width,
+    ground_speed
+)
+
+print(f"\nAverage Data Generated per Orbit: {average_data_gb:.2f} GB ({average_data_mb:.2f} MB)")
