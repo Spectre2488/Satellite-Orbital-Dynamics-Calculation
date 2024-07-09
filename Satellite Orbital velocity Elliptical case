@@ -1,3 +1,50 @@
+#1st code is perfect
+
+import math
+
+def calculate_velocities(sma, ecc):
+    # Constants
+    mu = 3.986e14  # Gravitational parameter of Earth in m^3/s^2
+    rotational_speed = 0.465  # Earth's rotational speed at equator in km/s
+
+    # Calculate perigee and apogee distances
+    rp = sma * (1 - ecc)
+    ra = sma * (1 + ecc)
+
+    # Calculate velocities
+    vp = math.sqrt(mu * (2 / rp - 1 / sma))
+    va = math.sqrt(mu * (2 / ra - 1 / sma))
+
+    # Convert velocities to km/s
+    vp_km_s = vp / 1000
+    va_km_s = va / 1000
+
+    # Adjust velocities for Earth's rotation at satellite altitude
+    vp_adjusted = vp_km_s + rotational_speed
+    va_adjusted = va_km_s + rotational_speed
+
+    return vp_km_s, va_km_s, vp_adjusted, va_adjusted
+
+# Main program
+if __name__ == "__main__":
+    # User input for semi-major axis (SMA) and eccentricity (ecc)
+    sma = float(input("Enter semi-major axis (km): "))
+    ecc = float(input("Enter eccentricity: "))
+
+    # Calculate velocities at perigee and apogee
+    vp_km, va_km, vp_adjusted, va_adjusted = calculate_velocities(sma * 1000, ecc)  # Convert sma to meters
+
+    # Output results
+    print(f"Velocity at perigee: {vp_km:.4f} km/s")
+    print(f"Velocity at apogee: {va_km:.4f} km/s")
+
+    # Output adjusted velocities with Earth's rotation
+    print("\nAdjusted velocities with Earth's rotation:")
+    print(f"Velocity at perigee with rotation: {vp_adjusted:.4f} km/s")
+    print(f"Velocity at apogee with rotation: {va_adjusted:.4f} km/s")
+'''
+
+
 import math
 
 def calculate_velocities(sma, ecc):
@@ -30,3 +77,6 @@ if __name__ == "__main__":
     # Output results
     print(f"Velocity at perigee: {vp:.4f} km/s")
     print(f"Velocity at apogee: {va:.4f} km/s")
+
+
+'''
