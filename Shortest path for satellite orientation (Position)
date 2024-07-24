@@ -1,0 +1,23 @@
+def shortest_angle_path(current_angle, target_angle):
+    # Normalize angles to be within the range -180 to +180
+    current_angle = ((current_angle + 180) % 360) - 180
+    target_angle = ((target_angle + 180) % 360) - 180
+    
+    # Calculate the direct angle difference
+    delta_angle = target_angle - current_angle
+    
+    # Adjust for the shortest path
+    if delta_angle > 180:
+        delta_angle -= 360
+    elif delta_angle < -180:
+        delta_angle += 360
+    
+    return delta_angle
+
+# Get user input
+current_angle = float(input("Enter the current angle in degrees: "))
+target_angle = float(input("Enter the target angle in degrees: "))
+
+# Calculate the shortest path
+shortest_path = shortest_angle_path(current_angle, target_angle)
+print(f"The shortest path from {current_angle} degrees to {target_angle} degrees is {shortest_path} degrees.")
