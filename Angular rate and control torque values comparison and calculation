@@ -1,0 +1,23 @@
+# Given data
+torque_38 = 0  # Control torque at 06:08:38 in Nm
+torque_50 = 0.0149  # Control torque at 06:08:50 in Nm
+moment_of_inertia_xx = 10.9488  # Moment of inertia for the 'a' axis in kg*m^2
+
+angular_rate_38 = -0.0000672  # Angular rate at 06:08:38 in rad/s
+angular_rate_50 = -0.0298  # Angular rate at 06:08:50 in rad/s
+
+# Time interval in seconds
+time_interval = 12
+
+# Calculate angular acceleration at 06:08:50
+angular_acceleration = torque_50 / moment_of_inertia_xx
+
+# Calculate change in angular rate using the angular acceleration
+calculated_angular_rate_change = angular_acceleration * time_interval
+
+# Observed change in angular rate
+observed_angular_rate_change = angular_rate_50 - angular_rate_38
+
+# Print results
+print(f"Calculated Angular Rate Change: {calculated_angular_rate_change:.10f} rad/s")
+print(f"Observed Angular Rate Change: {observed_angular_rate_change:.10f} rad/s")
