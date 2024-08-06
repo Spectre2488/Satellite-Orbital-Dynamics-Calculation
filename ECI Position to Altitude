@@ -1,0 +1,29 @@
+import math
+
+def calculate_altitude(x, y, z):
+    earth_radius = 6371  # Earth's radius in km
+    distance = math.sqrt(x**2 + y**2 + z**2)
+    altitude = distance - earth_radius
+    return altitude
+
+def main():
+    positions = []
+    
+    while True:
+        user_input = input("Enter ECI position in the format 'time X Y Z' or type 'done' to finish: ")
+        if user_input.lower() == 'done':
+            break
+        try:
+            time, x, y, z = user_input.split()
+            x, y, z = float(x), float(y), float(z)
+            positions.append({"time": time, "x": x, "y": y, "z": z})
+        except ValueError:
+            print("Invalid input. Please enter in the format 'time X Y Z'.")
+
+    if positions:
+        for pos in positions:
+            altitude = calculate_altitude(pos['x'], pos['y'], pos['z'])
+            print(f"At time {pos['time']}, the altitude is {altitude:.2f} km")
+
+if __name__ == "__main__":
+    main()
