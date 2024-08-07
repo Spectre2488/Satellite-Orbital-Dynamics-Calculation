@@ -1,0 +1,34 @@
+from datetime import datetime
+
+def calculate_angular_acceleration(angular_rates):
+    angular_accelerations = []
+    for i in range(1, len(angular_rates)):
+        delta_t = (angular_rates[i]['time'] - angular_rates[i-1]['time']).total_seconds()
+        alpha_x = (angular_rates[i]['x'] - angular_rates[i-1]['x']) / delta_t
+        alpha_y = (angular_rates[i]['y'] - angular_rates[i-1]['y']) / delta_t
+        alpha_z = (angular_rates[i]['z'] - angular_rates[i-1]['z']) / delta_t
+        angular_accelerations.append({'time': angular_rates[i]['time'], 'alpha_x': alpha_x, 'alpha_y': alpha_y, 'alpha_z': alpha_z})
+    return angular_accelerations
+
+# Function to get user inputs
+def get_user_inputs():
+    angular_rates = []
+    n = int(input("Enter the number of data points: "))
+    for _ in range(n):
+        time_str = input("Enter time (HH:MM:SS): ")
+        x = float(input("Enter angular rate x (d/s): "))
+        y = float(input("Enter angular rate y (d/s): "))
+        z = float(input("Enter angular rate z (d/s): "))
+        time = datetime.strptime(time_str, "%H:%M:%S")
+        angular_rates.append({'time': time, 'x': x, 'y': y, 'z': z})
+    return angular_rates
+
+# Get user inputs
+angular_rates = get_user_inputs()
+
+# Calculate angular accelerations
+angular_accelerations = calculate_angular_acceleration(angular_rates)
+
+# Print the angular accelerations
+for aa in angular_accelerations:
+    print(f"Time: {aa['time'].time()}, alpha_x: {aa['alpha_x']:.8f} d/s^2, alpha_y: {aa['alpha_y']:.8f} d/s^2, alpha_z: {aa['alpha_z']:.8f} d/s^2")
