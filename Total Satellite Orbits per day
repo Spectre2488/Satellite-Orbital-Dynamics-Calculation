@@ -4,6 +4,66 @@ def calculate_orbital_duration(alt_or_sma, is_altitude, orbital_velocity):
     # Constants
     EARTH_RADIUS = 6371 * 1000  # Earth's radius in meters
     SECONDS_IN_HOUR = 3600
+    EARTH_ROTATIONAL_SPEED = 465.1  # Earth's rotational speed at the equator in meters per second
+    
+    # Determine the radius of the orbit
+    if is_altitude:
+        # If the input is altitude
+        radius = EARTH_RADIUS + alt_or_sma * 1000  # convert km to meters
+    else:
+        # If the input is semi-major axis
+        radius = alt_or_sma * 1000  # convert km to meters
+    
+    # Adjust the orbital velocity by subtracting Earth's rotational speed
+    adjusted_orbital_velocity = (orbital_velocity * 1000) - EARTH_ROTATIONAL_SPEED  # convert km/s to m/s and adjust
+    
+    # Orbital period calculation
+    orbital_period = (2 * math.pi * radius) / adjusted_orbital_velocity
+    
+    # Calculate the number of orbits in given hours
+    def calculate_orbits_in_hours(hours):
+        return (hours * SECONDS_IN_HOUR) / orbital_period
+    
+    orbits_24hrs = calculate_orbits_in_hours(24)
+    orbits_48hrs = calculate_orbits_in_hours(48)
+    orbits_72hrs = calculate_orbits_in_hours(72)
+    orbits_96hrs = calculate_orbits_in_hours(96)
+    
+    return {
+        'orbital_period_seconds': orbital_period,
+        'orbital_period_minutes': orbital_period / 60,
+        'orbits_in_24hrs': orbits_24hrs,
+        'orbits_in_48hrs': orbits_48hrs,
+        'orbits_in_72hrs': orbits_72hrs,
+        'orbits_in_96hrs': orbits_96hrs
+    }
+
+def main():
+    # User inputs
+    alt_or_sma = float(input("Enter the altitude or semi-major axis (in km): "))
+    is_altitude = input("Is this value altitude (A) or semi-major axis (SMA)? (Enter 'A' or 'SMA'): ").strip().upper() == 'A'
+    orbital_velocity = float(input("Enter the orbital velocity (in km/s): "))
+    
+    # Calculate the orbital duration and number of orbits
+    results = calculate_orbital_duration(alt_or_sma, is_altitude, orbital_velocity)
+    
+    # Output the results
+    print(f"Orbital Duration: {results['orbital_period_seconds']:.2f} seconds ({results['orbital_period_minutes']:.2f} minutes)")
+    print(f"Orbits in 24 hours: {results['orbits_in_24hrs']:.2f}")
+    print(f"Orbits in 48 hours: {results['orbits_in_48hrs']:.2f}")
+    print(f"Orbits in 72 hours: {results['orbits_in_72hrs']:.2f}")
+    print(f"Orbits in 96 hours: {results['orbits_in_96hrs']:.2f}")
+
+if __name__ == "__main__":
+    main()
+
+'''
+import math
+
+def calculate_orbital_duration(alt_or_sma, is_altitude, orbital_velocity):
+    # Constants
+    EARTH_RADIUS = 6371 * 1000  # Earth's radius in meters
+    SECONDS_IN_HOUR = 3600
     
     # Determine the radius of the orbit
     if is_altitude:
@@ -52,4 +112,4 @@ def main():
 
 if __name__ == "__main__":
     main()
-
+'''
