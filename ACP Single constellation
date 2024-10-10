@@ -1,0 +1,74 @@
+def single_plane_constellation(reference_orbit, total_sats, internal_sat_spacing):
+    """
+    Generate a single-plane constellation where the user can specify the total number of satellites
+    and the internal angular spacing between satellites within the plane.
+    
+    :param reference_orbit: dict, orbital elements of the reference satellite:
+                            'altitude', 'inclination', 'eccentricity', 'raan', 'aop', 'ta'
+    :param total_sats: int, total number of satellites in the plane
+    :param internal_sat_spacing: float, user-defined angular spacing between satellites in degrees
+    :return: list of dicts, each dict contains the full orbital parameters for one satellite
+    """
+    if total_sats <= 0 or internal_sat_spacing < 0:
+        raise ValueError("Total satellites must be greater than zero and internal spacing cannot be negative.")
+    
+    # Plane separation angle is automatically determined as 360 degrees divided by the total number of satellites
+    plane_sep_angle = 360 / total_sats
+
+    # Extract Reference Orbit Parameters
+    altitude = reference_orbit['altitude']  # in km
+    inclination = reference_orbit['inclination']  # in degrees
+    eccentricity = reference_orbit['eccentricity']
+    raan = reference_orbit['raan']  # Reference RAAN in degrees
+    aop = reference_orbit['aop']  # Argument of perigee in degrees
+    ta_ref = reference_orbit['ta']  # Reference true anomaly in degrees
+
+    # List to store orbital elements of each satellite
+    constellation = []
+
+    for s in range(total_sats):  # Loop over each satellite
+        # Calculate the true anomaly for the current satellite based on internal satellite spacing
+        true_anomaly = (ta_ref + (s * internal_sat_spacing)) % 360
+        
+        # Create the orbital parameters for this satellite
+        satellite_orbit = {
+            'altitude': altitude,               # Altitude (same for all satellites)
+            'inclination': inclination,         # Inclination (same for all satellites)
+            'eccentricity': eccentricity,       # Eccentricity (same for all satellites)
+            'raan': raan,                       # RAAN (same for all satellites in a single plane)
+            'aop': aop,                         # Argument of perigee (same for all satellites)
+            'true_anomaly': true_anomaly        # True anomaly specific to the satellite based on user-defined spacing
+        }
+        
+        # Append this satellite's orbit to the constellation list
+        constellation.append(satellite_orbit)
+    
+    return constellation
+
+# Example usage
+reference_orbit = {
+    'altitude': 629,    # km
+    'inclination': 90,  # degrees
+    'eccentricity': 0.1,  # nearly circular
+    'raan': 300,         # degrees (RAAN for all satellites since it's a single plane)
+    'aop': 34,          # Argument of perigee
+    'ta': 30            # True anomaly of reference satellite
+}
+
+# User inputs
+total_sats = 3  # Total number of satellites in the plane
+internal_sat_spacing = 90  # User-defined internal angular spacing in degrees
+
+# Generate the constellation
+constellation = single_plane_constellation(reference_orbit, total_sats, internal_sat_spacing)
+
+# Print the full orbital details for each satellite
+for idx, satellite in enumerate(constellation):
+    print(f"Satellite {idx + 1}:")
+    print(f"  Altitude: {satellite['altitude']} km")
+    print(f"  Inclination: {satellite['inclination']} degrees")
+    print(f"  Eccentricity: {satellite['eccentricity']}")
+    print(f"  RAAN: {satellite['raan']} degrees")
+    print(f"  Argument of Perigee: {satellite['aop']} degrees")
+    print(f"  True Anomaly: {satellite['true_anomaly']} degrees")
+    print("-" * 30)
