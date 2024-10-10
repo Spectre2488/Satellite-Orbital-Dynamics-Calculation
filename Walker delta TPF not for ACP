@@ -1,0 +1,83 @@
+import numpy as np
+
+def walker_delta_constellation(reference_orbit, T, P, F):
+    """
+    Generate Walker Delta Constellation orbital parameters for each satellite.
+    
+    :param reference_orbit: dict, orbital elements of the reference satellite:
+                            'altitude', 'inclination', 'eccentricity', 'raan', 'aop', 'ta'
+    :param T: int, total number of satellites in the constellation
+    :param P: int, number of planes
+    :param F: int, phasing factor between satellites in neighboring planes
+    :return: list of dicts, each dict contains the full orbital parameters for one satellite
+    """
+    if T <= 0 or P <= 0 or F < 0:
+        raise ValueError("T, P must be greater than zero and F cannot be negative.")
+    if T % P != 0:
+        raise ValueError("Total satellites (T) must be divisible by the number of planes (P).")
+
+    # Extract Reference Orbit Parameters
+    altitude = reference_orbit['altitude']  # in km
+    inclination = reference_orbit['inclination']  # in degrees
+    eccentricity = reference_orbit['eccentricity']
+    raan_ref = reference_orbit['raan']  # reference RAAN in degrees
+    aop = reference_orbit['aop']  # Argument of perigee in degrees
+    ta_ref = reference_orbit['ta']  # reference true anomaly in degrees
+    
+    # Satellites per plane (assuming T is divisible by P)
+    satellites_per_plane = T // P
+    
+    # List to store orbital elements of each satellite
+    constellation = []
+    
+    for p in range(P):  # Loop over each orbital plane
+        # Calculate the RAAN for the current plane
+        raan = (raan_ref + (p * (360 / P))) % 360  # Equally spaced RAAN between planes
+        
+        for s in range(satellites_per_plane):  # Loop over each satellite in the plane
+            # Calculate the true anomaly for the satellite in the current plane
+            true_anomaly = (ta_ref + (s * (360 / satellites_per_plane) + (p * (F * 360 / T)))) % 360
+            
+            # Create the orbital parameters for this satellite
+            satellite_orbit = {
+                'altitude': altitude,               # Altitude (same for all satellites)
+                'inclination': inclination,         # Inclination (same for all satellites)
+                'eccentricity': eccentricity,       # Eccentricity (same for all satellites)
+                'raan': raan,                       # RAAN specific to the plane
+                'aop': aop,                         # Argument of perigee (same for all satellites)
+                'true_anomaly': true_anomaly        # True anomaly specific to the satellite
+            }
+            
+            # Append this satellite's orbit to the constellation list
+            constellation.append(satellite_orbit)
+    
+    return constellation
+
+# Example usage
+reference_orbit = {
+    'altitude': 450,    # km
+    'inclination': 98,  # degrees
+    'eccentricity': 0,  # nearly circular
+    'raan': 0,         # degrees (initial reference RAAN)
+    'aop': 0,          # Argument of perigee
+    'ta': 0            # True anomaly of reference satellite
+}
+
+# Walker Delta Constellation Parameters
+T = 6  # Total satellites
+P = 2   # Number of orbital planes
+F = 1   # Phasing factor
+
+# Generate the constellation
+constellation = walker_delta_constellation(reference_orbit, T, P, F)
+
+# Print the full orbital details for each satellite
+for idx, satellite in enumerate(constellation):
+    print(f"Satellite {idx + 1}:")
+    print(f"  Altitude: {satellite['altitude']} km")
+    print(f"  Inclination: {satellite['inclination']} degrees")
+    print(f"  Eccentricity: {satellite['eccentricity']}")
+    print(f"  RAAN: {satellite['raan']} degrees")
+    print(f"  Argument of Perigee: {satellite['aop']} degrees")
+    print(f"  True Anomaly: {satellite['true_anomaly']} degrees")
+    print("-" * 30)
